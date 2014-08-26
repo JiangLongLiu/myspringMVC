@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd 
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context.xsd">
+     <!-- 请求映射器 请求映射从DispatcherServlet到特定的Controller -->
+     	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+     		<property name="mappings">
+     			<props>
+     			<prop key="start.test">startController</prop>
+     			</props>
+     		</property>
+     	</bean>
+     	<!-- 自己项目中定义的Controller ,在这个里面调用自己的service->dao -->
+		<bean id="startController" class="com.liujl.controller.StrartController" />
+		<!-- 是一种映射策略策略 ：根据controller的return的逻辑视图名称 拼装物理视图名称-->
+		<bean  class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+			<property name="prefix" value="/WEB-INF/pages/"/>
+			<property name="suffix" value=".jsp"/>
+			<!-- 流程要求，1 resolver和view一定同时使用，2  国际化中会把标签正确映射 -->
+			 <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView"/>
+		</bean>
+</beans>
