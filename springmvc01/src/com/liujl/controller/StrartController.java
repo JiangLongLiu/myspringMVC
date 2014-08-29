@@ -17,5 +17,4 @@ public class StrartController implements Controller {
 		//返回一个视图+模型（模型没有数据，目前直返回了一个试图名 ）
 		return new ModelAndView("start");
 	}
-
 }

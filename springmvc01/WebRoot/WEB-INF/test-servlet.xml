@@ -14,16 +14,37 @@
      		<property name="mappings">
      			<props>
      			<prop key="start.test">startController</prop>
+     			<prop key="login.test">loginController</prop>
+     			<!-- MultiActionController开始 -->
+     			<prop key="to_add.test">empMultiActionController</prop>
+     			<prop key="add_emp.test">empMultiActionController</prop>
      			</props>
      		</property>
      	</bean>
+     	<!-- 简单的映射一个view的Controller不需要自己写，spring已经为我们写好了 -->
+     	<!-- <bean id="loginController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     		<property name="viewName" value="login"></property>
+     	</bean> -->
+     	
+     	<!-- 和ParameterizableViewController相比，连viewName都省了，直接从login.test中截取login -->
+     	<bean id="loginController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+     	
      	<!-- 自己项目中定义的Controller ,在这个里面调用自己的service->dao -->
 		<bean id="startController" class="com.liujl.controller.StrartController" />
-		<!-- 是一种映射策略策略 ：根据controller的return的逻辑视图名称 拼装物理视图名称-->
+		<!-- 一个MultiActionController 可以处理多个请求-->
+		<bean id="empMultiActionController" class="com.liujl.controller.EmpMultiActionController" >
+			<property name="methodNameResolver">
+				<bean class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver"></bean>
+			</property>
+		</bean>
+		
+		<!-- ViewResolver是一种映射策略策略 ：根据controller的return的逻辑视图名称 拼装物理视图名称-->
 		<bean  class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 			<property name="prefix" value="/WEB-INF/pages/"/>
 			<property name="suffix" value=".jsp"/>
 			<!-- 流程要求，1 resolver和view一定同时使用，2  国际化中会把标签正确映射 -->
 			 <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView"/>
 		</bean>
+		
+		
 </beans>
